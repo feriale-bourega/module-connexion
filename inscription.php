@@ -1,0 +1,92 @@
+<?php
+
+if(isset($_POST['submit']))/**je valide les données du formulaire */
+{   
+    $login = $_POST['login'];/**je définie les variables du formulaire */
+    $prenom = $_POST['prenom'];
+    $nom = $_POST['nom'];
+    $password = $_POST['password'];
+    $password2 = $_POST['password2'];
+    if($login && $prenom && $nom && $password) 
+    {
+
+        if($password==$password2) /**je vérifie la confirmation du mot de passe */
+        {
+            //hachage du password
+            $password3 = password_hash($password, PASSWORD_BCRYPT, array('cost' =>10 ));
+
+            $connexion = mysqli_connect("localhost","root","","moduleconnexion") or die('erreur');/**je me connecte à la base de données */
+            $reget = ("SELECT * FROM utilisateurs WHERE login='$login' ");/**je vérifie si les données du formulaire sont dans la base de données */
+            $regetx = mysqli_query($connexion, $reget);
+            $row = mysqli_num_rows($regetx);/**Résultat de la requête */
+           
+            if($row==0) /**si les données du formulaire n'appartiennent pas à la base de données */
+            {
+            $requete = ("INSERT INTO utilisateurs (`login`, `prenom`, `nom`, `password`) VALUE ('$login','$prenom','$nom','$password3')");
+            /**J'insère les données du formulaire dans la base de données */
+            $query = mysqli_query($connexion, $requete);
+            header('location: connexion.php');/**je retourne à la page de connexion */
+            }
+            else echo "<p style='color: white'>" . "Ce pseudo existe deja". "</p>";
+        }
+        else echo "<p style='color: white'>" . "les deux mots de passe doivent être identiques". "</p>";
+    }
+    else $erreur= 'renseignez tous les champs';
+}
+
+
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link  rel="stylesheet" type="text/css" href="module.css">
+        <title>Inscription</title>
+    </head>  
+
+    <body class="bodyinscription">
+        <header class="header_ins">
+            <h1>Inscription</h1>
+        </header>
+
+        <main class="main_ins">
+            <section class="boite_ins">
+                <form class="form_ins" action="inscription.php" method="post">
+                    <article class="pseudo_ins">
+                        <label for="login">Votre pseudo :</label>
+                        <input type="text" id="login" name="login" >
+                    </article>
+                    <article class="firstName_ins">
+                        <label for="enterFirstName">Prénom :</label>
+                        <input type="text" id="enterFirstName" name="prenom" >
+                    </article>
+                    <article class="lastName_ins">
+                        <label for="enterLastName">Nom :</label>
+                        <input type="text" id="enterLastName" name="nom" >
+                    </article>
+                    <article class="mp_ins">
+                        <label for="enterMp">Mot de passe : </label>
+                        <input type="password" id="enterMp" name="password" >
+                    </article>    
+                    <article class="mp_ins">
+                        <label for="confirmMp">Confirmez votre mot de passe :</label>
+                        <input type="password" id="confirmMp" name="password2" >
+                    </article>  
+                    <article class="button_ins">
+                        <button type="submit" value="Submit"  name="submit">Valider</button><br/>
+                        <a style="color:white; text-decoration:none;" class="boutton_nav" href="index.php">Retour accueil</a>
+                        <?php if(isset($erreur)){echo $erreur;}?>
+                    </article>
+                </form>
+            </section>
+        </main>
+
+        <footer class="footer_ins">
+            
+        </footer>
+        
+    
+    </body>
+</html>
