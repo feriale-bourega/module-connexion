@@ -1,74 +1,40 @@
 <?php
-session_start();
+require ('header.php');
+// Requête pour récupérer les infos sur les utilisateurs//
+$requete = mysqli_query ($bdd, "SELECT 'Id','Login', 'Prenom', 'Nom' FROM utilisateurs");
+// Resultat de la requête//
+$resultat = mysqli_fetch_all($requete, MYSQLI_ASSOC); ?>
+<main class="main-admin">
+<!-- Permet d'afficher le nom de l'utilisateur connecté.-->
+<?php if(isset($_SESSION['prenom'])) { ?> <p class="user-connecte"> Bonjour
+<?php echo $_SESSION['prenom']; ?>,vous êtes connecté.</p> <?php  }  ?>
 
-if(!isset($_SESSION['admin']))/**Page accessible uniquement pour l'utilisateur "admin" */
-{
-    header('location: connexion.php');
-    exit();
-}
-/**Je liste l'ensemble des informations des utilisateurs présents dans la base de données */
-else $connexion = mysqli_connect('localhost', 'root', '', 'moduleconnexion');
-    $requete = 'SELECT * FROM utilisateurs';
-    $query = mysqli_query($connexion, $requete);
-
-    $champs = mysqli_fetch_fields($query);/**retourne les données enregistrées dans une colonne MYSQL sous forme d'objet */
-    
-    $resultat = mysqli_fetch_assoc($query);/**lit une ligne de résultat MYSQL dans un tableau associatif */
-?>
-
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" type="text/css" href="module.css" />
-        <title>Admin</title>
-    </head>  
-
-    <body class="bodyinscription">
-        <header class="header_ins">
-            <h1>Page Admin</h1>
-        </header>
-
-        <main class="admin_page">
-            <section class="boite_admin">
-                <h1 class="head_admin">Toutes les infos de la base de donnée</h2>
-                <?php 
-                echo "<table style=width='300px;' class='liste'>";
-                echo '<tr>';
-                foreach ($champs as $champ ) 
-                {
-                echo "<td> $champ->name </td>" ;
-                }
-                echo '</tr>';
-                
-                while(($resultat = mysqli_fetch_assoc($query))!=null)
-                {
-                    echo '<tr>';
-                    foreach ($resultat as $value)
-                    {
-                    echo '<td>' . $value . '</td>';
-                    }
-                    echo '</tr>';
-                }
-                echo '</table>';
-                ?>
-                <a style="color:white; text-decoration:none;" href="deconnexion.php">Deconnexion</a>
-            </section>
-        </main>
-
-        <footer class="footer_ins">
-            
-        </footer>
-        
-    
-    </body>
-</html>
-
-<style>
-.liste tr td{
-    color: white;
-    border: 1px solid white;
-    border-collapse: collapse;
-}
-</style>
+        <h1> Administration </h1>
+        <table   class="tableau-admin">
+              <thead>
+                  <tr>
+                      <?php
+                      foreach ($resultat as $key => $value)  {
+                          foreach($value as $key2 => $value2){
+                              echo "<th>".$key2."</th>";
+                          }
+                          break;
+                      } ?>
+                         </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                    foreach ($resultat as $key => $value)   {
+                        echo "<tr>";
+                        foreach($value as $key2 => $value2)  {
+                            echo "<td>".$value2."</td>";
+                        }
+                            echo "</tr>";
+                    } ?>
+                      </tbody>
+                </table>
+                </main> 
+                <?php include('footer.php') ?>
+                </body>
+                </html>
+  
