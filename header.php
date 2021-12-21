@@ -5,7 +5,7 @@ session_start();
 // Inclure le footer
 require ('fonctions.php');
 // SE CONNECTER A LA BASE DE DONNEE
-$bdd = mysqli_connect("localhost","root","", "moduleconnexion");
+$bdd = mysqli_connect("localhost","feriale-bourega","ferbou","feriale-bourega_moduleconnexion");
 if(isset($_POST["deconnect"])) {
     unset($_SESSION["id"]);
     unset($_SESSION['prenom']);

@@ -32,7 +32,7 @@ if(isset($_POST['submit']))
             $password3 = password_hash($password, PASSWORD_BCRYPT, array('cost' =>10 ));
 
             //connexion a la BDD
-            $connexion = mysqli_connect("localhost","root","","moduleconnexion") or die('erreur');
+            $connexion = mysqli_connect("localhost","feriale-bourega","ferbou","feriale-bourega_moduleconnexion") or die('erreur');
 
             //ici on verifie qu'une ligne contenant déjà le login choisi n'existe pas
             $reget = ("SELECT * FROM utilisateurs WHERE login='$login' ");

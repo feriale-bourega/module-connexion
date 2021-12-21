@@ -7,7 +7,7 @@ if(isset($_POST['submit']))  /**j'envoie les données du formulaire */
     {
     $login = $_POST['login'];/**Je définie les variables du formulaire */
     $password= $_POST['password'];    
-    $bd = mysqli_connect("localhost","root","","moduleconnexion");/**je me connecte à la base de données */
+    $bd = mysqli_connect("localhost","feriale-bourega","ferbou","feriale-bourega_moduleconnexion");/**je me connecte à la base de données */
     $requete = mysqli_query($bd, "SELECT login, password FROM `utilisateurs` WHERE login='$login' ");/**Je vérifie si les données du formulaire appartiennent à la base de données */
     
     //on va utiliser num_rows pour verifier que l'utilisateur existe(nombre de lignes retournées)

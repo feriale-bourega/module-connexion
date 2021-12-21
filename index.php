@@ -19,6 +19,7 @@
                     <article class="linkcreate">
                         <a style="color:white; text-decoration:none;" href="inscription.php">Créer un compte</a>
                         <a style="color:white; text-decoration:none;" href="connexion.php">Connexion</a>
+                        <a style="color:white; text-decoration:none;" href="https://github.com/feriale-bourega/module-connexion">Github</a>
                     </article>
             </section>
         </main>
